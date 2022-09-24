@@ -5,5 +5,8 @@
     <Setting Name="WindowPlacement" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="Resolutions" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1024x782,1280x1024,1920x1080,2560x1440</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

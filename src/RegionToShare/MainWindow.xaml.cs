@@ -1,6 +1,5 @@
 ﻿using RegionToShare.Properties;
 using System.ComponentModel;
-using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
@@ -65,31 +64,9 @@ public partial class MainWindow
 
     private ICollection<string> LoadResolutions()
     {
-        var defaultResolutions = new[] { @"1024x782", @"1280x1024", @"1920x1080" };
-
-        try
-        {
-            var userDataDirPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"RegionToShare");
-            var resolutionsFilePath = Path.Combine(userDataDirPath, @"resolutions.txt");
-
-            Directory.CreateDirectory(userDataDirPath);
-
-            if (!File.Exists(resolutionsFilePath))
-            {
-                File.WriteAllText(resolutionsFilePath, string.Join("\r\n", defaultResolutions));
-                return defaultResolutions;
-            }
-
-            var resolutions = File.ReadAllLines(resolutionsFilePath)
-                .Where(item => TryParseSize(item, out _))
-                .ToArray();
-
-            return resolutions.Any() ? resolutions : defaultResolutions;
-        }
-        catch
-        {
-            return defaultResolutions;
-        }
+        var resolutionsSetting = Settings.Default.Resolutions;
+        var resolutions = resolutionsSetting.Split(',').Select(s => s.Trim()).ToList();
+        return resolutions;
     }
 
     protected override void OnSourceInitialized(EventArgs e)
